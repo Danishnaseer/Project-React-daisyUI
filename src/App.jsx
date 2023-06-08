@@ -1,9 +1,12 @@
 import './App.css';
 import React, { useEffect } from 'react';
+import SearchIcon from './search.svg';
 
 const API_KEY = '781124233027ea9846975e0c6e14704e'; // Replace with your TMDb API key
 
 const App = () => {
+  const [searchQuery, setSearchQuery] = useState(''); // State to hold the search query
+
   const searchMovies = async (title) => {
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
       title
@@ -27,21 +30,21 @@ const App = () => {
     searchMovies('Avengers'); // Replace 'Avengers' with the desired movie title or search query
   }, []);
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <div className="app">
       <h1>MovieLand</h1>
 
       <div className="search">
         <input
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchQuery}
+          onChange={handleSearchChange}
           placeholder="Search for movies"
         />
-        <img
-          src={SearchIcon}
-          alt="search"
-          onClick={() => searchMovies(searchTerm)}
-        />
+        <img src={SearchIcon} alt="search" />
       </div>
     </div>
   );
