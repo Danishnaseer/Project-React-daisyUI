@@ -1,52 +1,49 @@
 import './App.css';
-import React from 'react';
-import { useState } from 'react';
+import React, { useEffect } from 'react';
 
-// const Profile = (props) => {
-//   return (
-//     <div>
-//       <h2 className="mytitle">{props.name}</h2>
-//     </div>
-//   );
-// };
-
-// export default Profile;
+const API_KEY = '781124233027ea9846975e0c6e14704e'; // Replace with your TMDb API key
 
 const App = () => {
-  const [counter, setCounter] = useState(0);
+  const searchMovies = async (title) => {
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
+      title
+    )}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      const movies = data.results;
+      movies.forEach((movie) => {
+        console.log(movie);
+        // Here, you can access and display any specific properties of the movie
+        // For example: console.log(movie.title), console.log(movie.release_date), etc.
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    searchMovies('Avengers'); // Replace 'Avengers' with the desired movie title or search query
+  }, []);
 
   return (
-    <>
-      <div className="dcode-card w-96 bg-base-100 shadow-xl ms-10">
-        <figure>
-          <img
-            src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-            alt="Shoes"
-          />
-        </figure>
-        <div className="dcode-card-body">
-          <h2 className="dcode-card-title">Shoes!</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-          <div className="dcode-card-actions flex items-center	">
-            <button
-              className="dcode-btn dcode-btn-neutral"
-              onClick={() => setCounter((prevCount) => prevCount + 1)}
-            >
-              +
-            </button>
-            <div>
-              <h2 className="dcode-card-title">{counter}</h2>
-            </div>
-            <button
-              className="dcode-btn dcode-btn-neutral"
-              onClick={() => setCounter((prevCount) => prevCount - 1)}
-            >
-              -
-            </button>
-          </div>
-        </div>
+    <div className="app">
+      <h1>MovieLand</h1>
+
+      <div className="search">
+        <input
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search for movies"
+        />
+        <img
+          src={SearchIcon}
+          alt="search"
+          onClick={() => searchMovies(searchTerm)}
+        />
       </div>
-    </>
+    </div>
   );
 };
 
