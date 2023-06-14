@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchIcon from './search.svg';
 
 const API_KEY = '781124233027ea9846975e0c6e14704e'; // Replace with your TMDb API key
